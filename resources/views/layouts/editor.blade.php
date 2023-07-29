@@ -21,15 +21,12 @@
 	</head>
 	<body>
 		<div id="app">
-			<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"data-sidebar-position="fixed" data-header-position="fixed">
-
-
-				@include('layouts/components/sidebar')
-
-				<div class="body-wrapper">
+			<div class="page-wrapper" id="main-wrapper">
+				<div class="mb-3">
 					@include('layouts/components/header')
-					@yield('content')
 				</div>
+				
+				@yield('content')
 			</div>
 		</div>
 

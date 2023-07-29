@@ -25,3 +25,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('member.dashboard');
+
+// Start Related Article Routes
+Route::get('/article', [App\Http\Controllers\ArticleController::class, 'index'])->name('article.index');
+Route::get('/article/editor', [App\Http\Controllers\ArticleController::class, 'editor'])->name('article.editor');
+// End Related Article Routes
