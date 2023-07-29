@@ -20,7 +20,7 @@
 		@stack('css')
 	</head>
 	<body>
-		<div id="app">
+		<div>
 			<div class="page-wrapper" id="main-wrapper">
 				<div class="mb-3">
 					@include('layouts/components/header')
@@ -34,9 +34,7 @@
 		<script src="{{asset('ui/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
 		<script src="{{asset('ui/assets/js/sidebarmenu.js')}}"></script>
 		<script src="{{asset('ui/assets/js/app.min.js')}}"></script>
-		<script src="{{asset('ui/assets/libs/apexcharts/dist/apexcharts.min.js')}}"></script>
 		<script src="{{asset('ui/assets/libs/simplebar/dist/simplebar.js')}}"></script>
-		<script src="{{asset('ui/assets/js/dashboard.js')}}"></script>
 		@stack('js')
 	</body>
 </html>
