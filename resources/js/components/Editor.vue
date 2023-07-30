@@ -7,6 +7,7 @@
       :hide-gist="true"
       :hide-image="false"
       :hide-video="true"
+      :hide-newline="false"
       @uploaded="uploadCallback"
     >
     </medium-editor>
@@ -24,6 +25,12 @@ export default {
     return {
       content: ``,
       defaultValue: ``,
+      props: {
+        placeholder: {
+          type: String,
+          default: 'Type your content here...',
+        },
+      },
       options: {
         uploadUrl: 'https://api.imgur.com/3/image',
         uploadUrlHeader: { Authorization: 'Client-ID db856b43cc7f441' },

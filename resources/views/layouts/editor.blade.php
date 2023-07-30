@@ -15,18 +15,22 @@
 
 		<link rel="stylesheet" type="text/css" href="{{asset('ui/assets/css/styles.css')}}?v={{strtotime(date('Y-m-d H:i:s'))}}" />
 		<link rel="stylesheet" type="text/css" href="{{asset('css/custom.css')}}?v={{strtotime(date('Y-m-d H:i:s'))}}" />
+		<link rel="stylesheet" type="text/css" href="{{asset('css/editor.css')}}?v={{strtotime(date('Y-m-d H:i:s'))}}" />
 		<!-- Scripts -->
 
 		@stack('css')
 	</head>
 	<body>
 		<div>
-			<div class="page-wrapper" id="main-wrapper">
-				<div class="mb-3">
-					@include('layouts/components/header')
+			<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"data-sidebar-position="fixed" data-header-position="fixed">
+
+
+				@include('layouts/editor-components/sidebar')
+
+				<div class="body-wrapper">
+					@include('layouts/editor-components/header')
+					@yield('content')
 				</div>
-				
-				@yield('content')
 			</div>
 		</div>
 
@@ -35,6 +39,7 @@
 		<script src="{{asset('ui/assets/js/sidebarmenu.js')}}"></script>
 		<script src="{{asset('ui/assets/js/app.min.js')}}"></script>
 		<script src="{{asset('ui/assets/libs/simplebar/dist/simplebar.js')}}"></script>
+		<script src="{{asset('js/editor.js')}}"></script>
 		@stack('js')
 	</body>
 </html>

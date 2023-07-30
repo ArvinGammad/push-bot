@@ -45,7 +45,7 @@ import App from './components/Editor.vue'
 const app = createApp(App)
 
 app.component('medium-editor', MediumEditor)
-app.mount('#app')
+app.mount('#w-editor')
 
 
 
