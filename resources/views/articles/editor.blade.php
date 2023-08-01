@@ -31,13 +31,13 @@
 	.settings-con a.btn{
 		background: none;
 		border: none;
-		color: #5007b5ad;
+		color: #58575adb;
 		font-size: 10px;
 	}
 	.settings-con a.btn.active{
 		background: none;
 		border: none;
-		color: #11a50bad;
+		color: #11a50bfa;
 		font-size: 10px;
 		box-shadow: none;
 	}
@@ -48,5 +48,4 @@
 @endpush
 
 @push('js')
-
 @endpush

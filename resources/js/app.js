@@ -7,6 +7,11 @@
 import './bootstrap';
 import { createApp } from 'vue';
 
+
+// ES6 Modules or TypeScript
+import swal from 'sweetalert2';
+window.Swal = swal;
+
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
  * registering components with the application instance so they are ready
