@@ -54,13 +54,16 @@ $(document).ready(function(){
 		var btn = $(".btn-compose");
 		btn.button('loading');
 
-		var loading_html = '<span id="loading-spinner" class="spinner-border spinner-border-sm me-1"></span> Saving';
+		var loading_html = '<span id="loading-spinner" class="spinner-border spinner-border-sm me-1"></span> composing';
 		var default_html = btn.html();
 
 		var article_title = $("#article-title-field").val();
 		var article_description = $("#article-description").val();
 		var article_content = $(".editor").html();
 		var id = $("#article-id").val();
+
+		article_content = article_content.replace(/<br\s*\/?>/g, "\n");
+		article_content = article_content.replace(/<[^>]*>/g, ' ');
 
 		var form_data = "article_title="+article_title+"&article_description="+article_description+"&article_content="+article_content+"&id="+id;
 
@@ -75,6 +78,8 @@ $(document).ready(function(){
 				$(btn).html(loading_html);
 			},
 			success: function(response) {
+
+				$(".editor").append("<p>"+response.generated+"</p>");
 				$(".toast").removeClass("bg-danger");
 				$(".toast").addClass("bg-success");
 				$("#toast-text").text("Successfully generated!");

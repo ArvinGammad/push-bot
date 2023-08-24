@@ -59,7 +59,49 @@ class ArticleController extends Controller
 
     public function editorCompose(Request $request){
         try {
-            
+
+            $content = $request->article_content;
+            if($content != ""){
+                $content = $request->article_title . "\n" . $request->article_description;
+            }
+
+            $endpoint = 'https://aiwriter.brainpod.ai/api/v1';
+            $auth_bearer = 'awDEU8qzHlawLFK2AuV0hafz1dnm1dilKWXhXN6q';
+
+            $post_data = [
+                'task' => 'compose',
+                'length' => 64,
+                'context' => $content
+            ];
+
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, $endpoint);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Authorization: Bearer ' . $auth_bearer,
+                'Content-Type: application/json'
+            ]);
+
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post_data));
+
+            $response = curl_exec($ch);
+
+            if ($response === false) {
+                return response()->json(['error' => 'Unable to generate content, Please Try again!'], 500);
+            } else {
+                $response = json_decode($response, true);
+                return response()->json(
+                    [
+                        'success' => 'success', 
+                        'generated' => $response['generated_text'
+                    ]
+                ], 200);
+            }
+
+            curl_close($ch);
+
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
