@@ -55,7 +55,7 @@
 		text-align: center;
 		left: 58%;
 		transform: translate(-50%, 0);
-		z-index: 10000;
+/*		z-index: 10000;*/
 	}
 </style>
 @endpush
