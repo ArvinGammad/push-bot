@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-fluid">
-	<div class="row">
+	<div class="row options-con">
 		<div class="col-lg-12 text-center settings-con mb-3">
 				<a class="btn btn-success active"><i class="ti ti-adjustments-horizontal"></i> <br>Focus Mode</a>
 				<a class="btn btn-success"><i class="ti ti-template"></i> <br>Power Mode</a>
@@ -12,10 +12,15 @@
 				<a class="btn btn-success"><i class="ti ti-microphone"></i> <br>Text To Speech</a>
 				<a class="btn btn-success"><i class="ti ti-message-2-share"></i> <br>Post Article</a>
 		</div>
+	</div>
+	<div class="row mt-5">
 		<div class="col-lg-12">
 			<div id="w-editor">
 				<medium-editor></medium-editor>
 			</div>
+		</div>
+		<div class="col-lg-12">
+			<textarea id="article-content" hidden>{{@$article->content}}</textarea>
 		</div>
 	</div>
 </div>
@@ -43,6 +48,14 @@
 	}
 	.settings-con a i{
 		font-size: 30px;
+	}
+	.options-con{
+		position: fixed;
+		width: 100%;
+		text-align: center;
+		left: 58%;
+		transform: translate(-50%, 0);
+		z-index: 10000;
 	}
 </style>
 @endpush

@@ -23,20 +23,17 @@ export default {
   },
   data() {
     return {
-      content: ``,
-      defaultValue: ``,
-      props: {
-        placeholder: {
-          type: String,
-          default: 'Type your content here...',
-        },
-      },
+      content: $('#article-content').val(),
+      defaultValue: $('#article-content').val(),
       options: {
         uploadUrl: 'https://api.imgur.com/3/image',
         uploadUrlHeader: { Authorization: 'Client-ID db856b43cc7f441' },
         file_input_name: 'image',
         file_size: 1024 * 1024 * 10,
         imgur: true,
+        placeholder: {
+          text: 'Type your content here...',
+        },
         toolbar: {
           buttons: [
             'bold',

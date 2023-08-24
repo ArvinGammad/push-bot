@@ -28,5 +28,8 @@ Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'inde
 
 // Start Related Article Routes
 Route::get('/article', [App\Http\Controllers\ArticleController::class, 'index'])->name('article.index');
-Route::get('/article/editor', [App\Http\Controllers\ArticleController::class, 'editor'])->name('article.editor');
+Route::get('/article/editor/{id}', [App\Http\Controllers\ArticleController::class, 'editor'])->name('article.editor');
+Route::post('/article/editor/save', [App\Http\Controllers\ArticleController::class, 'editorSave'])->name('article.editor.save');
+Route::post('/article/editor/create', [App\Http\Controllers\ArticleController::class, 'editorCreate'])->name('article.editor.create');
+Route::post('/article/editor/compose', [App\Http\Controllers\ArticleController::class, 'editorCompose'])->name('article.editor.compose');
 // End Related Article Routes

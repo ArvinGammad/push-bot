@@ -356,4 +356,8 @@
 @endpush
 
 @push('js')
+<script src="{{asset('ui/assets/js/app.min.js')}}"></script>
+<script src="{{asset('ui/assets/libs/apexcharts/dist/apexcharts.min.js')}}"></script>
+<script src="{{asset('ui/assets/libs/simplebar/dist/simplebar.js')}}"></script>
+<script src="{{asset('ui/assets/js/dashboard.js')}}"></script>
 @endpush
