@@ -23,13 +23,18 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('member.dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('member.dashboard');
 
-// Start Related Article Routes
-Route::get('/article', [App\Http\Controllers\ArticleController::class, 'index'])->name('article.index');
-Route::get('/article/editor/{id}', [App\Http\Controllers\ArticleController::class, 'editor'])->name('article.editor');
-Route::post('/article/editor/save', [App\Http\Controllers\ArticleController::class, 'editorSave'])->name('article.editor.save');
-Route::post('/article/editor/create', [App\Http\Controllers\ArticleController::class, 'editorCreate'])->name('article.editor.create');
-Route::post('/article/editor/compose', [App\Http\Controllers\ArticleController::class, 'editorCompose'])->name('article.editor.compose');
-// End Related Article Routes
+    // Start Related Article Routes
+    Route::get('/article', [App\Http\Controllers\ArticleController::class, 'index'])->name('article.index');
+    Route::delete('/article/delete', [App\Http\Controllers\ArticleController::class, 'deleteArticle'])->name('article.delete');
+
+    Route::get('/article/editor/{id}', [App\Http\Controllers\ArticleController::class, 'editor'])->name('article.editor');
+    Route::post('/article/editor/save', [App\Http\Controllers\ArticleController::class, 'editorSave'])->name('article.editor.save');
+    Route::post('/article/editor/create', [App\Http\Controllers\ArticleController::class, 'editorCreate'])->name('article.editor.create');
+    Route::post('/article/editor/compose', [App\Http\Controllers\ArticleController::class, 'editorCompose'])->name('article.editor.compose');
+    
+    // End Related Article Routes
+});

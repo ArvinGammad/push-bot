@@ -10,7 +10,20 @@ use Illuminate\Support\Facades\Auth;
 class ArticleController extends Controller
 {
     public function index(){
-        return view('articles.index');
+        $articles = Articles::select('*')->where('user_id',auth()->user()->id)->orderBy('created_at','DESC')->limit(6)->get();
+        return view('articles.index',compact('articles'));
+    }
+
+    public function deleteArticle(Request $request){
+        try {
+
+            $article = Articles::select('*')->where('user_id',auth()->user()->id)->where('id',$request->article_id)->get()->first();
+            $article->delete();
+            return response()->json(['success' => 'success'], 200);
+
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     public function editor($id){

@@ -41,14 +41,32 @@
 		</div>
 	</div>
 	<div class="row mt-3">
-		<div class="col-lg-12">
+		<div class="col-lg-12 mb-3">
 			<hr>
 			<h4><i class="ti ti-history-toggle"></i> <span class="ms-2">Recent Created</span></h4>
+		</div>
+		<div class="col-lg-12">
+			@foreach ($articles as $key => $value)
+				<div class="card  bg-danger mb-3">
+					<div class="card-body p-3 d-flex">
+						<div class="article-detail text-white">
+							<h4 class="mt-auto mb-auto text-white">{{$value->title}}</h4>
+							<small>{{$value->created_at}}</small>
+						</div>
+						
+						<a href="/article/editor/{{$value->id}}" data-toggle="tooltip" title="Edit Article" class="ms-auto mt-auto mb-auto h4 text-white"><i class="ti ti-edit"></i></a>
+						<a href="javascript:void(0)" data-id="{{$value->id}}" class="ms-2 mt-auto mb-auto h4 text-white delete-article" data-toggle="tooltip" title="Delete Article"><i class="ti ti-trash"></i></a>
+						<a href="javascript:void(0)" data-id="{{$value->id}}" class="ms-2 mt-auto mb-auto h4 text-white export-article" data-toggle="tooltip" title="Export Article"><i class="ti ti-file-export"></i></a>
+					</div>
+				</div>
+			@endforeach
+			
 		</div>
 	</div>
 </div>
 @endsection
 @push('css')
+
 <style type="text/css">
 	.articles-icon{
 		font-size:70px;
@@ -60,5 +78,10 @@
 @endpush
 
 @push('js')
-<script src="{{asset('js/articles-index.js')}}"></script>
+<script src="{{asset('js/articles-index.js')}}?v={{strtotime(date('Y-m-d h:i:s'))}}"></script>
+<script type="text/javascript">
+	$(function () {
+		$('[data-toggle="tooltip"]').tooltip();
+	});
+</script>
 @endpush
