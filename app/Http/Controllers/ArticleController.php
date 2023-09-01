@@ -119,4 +119,20 @@ class ArticleController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function articleKeywords(){
+        return view('articles.keywords');
+    }
+
+    public function createArticleKeywords(){
+        try {
+            return response()->json(['success' => 'success'], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function articleTitle(){
+
+    }
 }

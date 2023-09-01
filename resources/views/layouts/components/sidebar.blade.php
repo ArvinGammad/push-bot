@@ -28,8 +28,15 @@
 					<i class="ti ti-dots nav-small-cap-icon fs-4"></i>
 					<span class="hide-menu">Tools</span>
 				</li>
+				@php
+					$article_array = [
+						route('article.index'),
+						route('article.keywords'),
+						route('article.title')
+					]
+				@endphp
 				<li class="sidebar-item">
-					<a class="sidebar-link" href="{{route('article.index')}}" aria-expanded="false">
+					<a class="sidebar-link @if(in_array(request()->fullUrl(), $article_array)) active @endif" href="{{route('article.index')}}" aria-expanded="false">
 						<span>
 							<i class="ti ti-article"></i>
 						</span>

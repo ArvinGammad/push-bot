@@ -23,7 +23,7 @@
 					<span class="h5">Create Article Using Keywords</span>
 				</div>
 				<div class="card-footer text-center">
-					<a href="" class="btn btn-danger rounded-3 w-100">Launch</a>
+					<a href="/article/keywords" class="btn btn-danger rounded-3 w-100">Launch</a>
 				</div>
 			</div>
 		</div>
@@ -35,7 +35,7 @@
 					<span class="h5">Create Article Using Title</span>
 				</div>
 				<div class="card-footer text-center">
-					<a href="" class="btn btn-danger rounded-3 w-100">Launch</a>
+					<a href="/article/title" class="btn btn-danger rounded-3 w-100">Launch</a>
 				</div>
 			</div>
 		</div>

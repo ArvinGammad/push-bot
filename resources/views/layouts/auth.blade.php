@@ -19,6 +19,24 @@
 		<link rel="stylesheet" type="text/css" href="{{asset('css/custom.css')}}?v={{strtotime(date('Y-m-d H:i:s'))}}" />
 		<!-- Scripts -->
 
+		<style type="text/css">
+			.scroll-sidebar::-webkit-scrollbar-track
+			{
+
+			}
+
+			.scroll-sidebar::-webkit-scrollbar
+			{
+				width: 10px;
+				background-color: #F5F5F5;
+			}
+
+			.scroll-sidebar::-webkit-scrollbar-thumb
+			{
+				background-color: #dfdfdf;
+			}
+		</style>
+
 		@stack('css')
 	</head>
 	<body>

@@ -31,6 +31,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/article', [App\Http\Controllers\ArticleController::class, 'index'])->name('article.index');
     Route::delete('/article/delete', [App\Http\Controllers\ArticleController::class, 'deleteArticle'])->name('article.delete');
 
+    Route::get('/article/keywords', [App\Http\Controllers\ArticleController::class, 'articleKeywords'])->name('article.keywords');
+    Route::post('/article/keyword/create', [App\Http\Controllers\ArticleController::class, 'createArticleKeywords'])->name('article.keywords.create');
+
+    Route::get('/article/title', [App\Http\Controllers\ArticleController::class, 'articleTitle'])->name('article.title');
+
     Route::get('/article/editor/{id}', [App\Http\Controllers\ArticleController::class, 'editor'])->name('article.editor');
     Route::post('/article/editor/save', [App\Http\Controllers\ArticleController::class, 'editorSave'])->name('article.editor.save');
     Route::post('/article/editor/create', [App\Http\Controllers\ArticleController::class, 'editorCreate'])->name('article.editor.create');
