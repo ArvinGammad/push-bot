@@ -105,11 +105,9 @@ class ArticleController extends Controller
                 return response()->json(['error' => 'Unable to generate content, Please Try again!'], 500);
             } else {
                 $response = json_decode($response, true);
-                return response()->json(
-                    [
-                        'success' => 'success', 
-                        'generated' => $response['generated_text'
-                    ]
+                return response()->json([
+                    'success' => 'success', 
+                    'generated' => $response['generated_text']
                 ], 200);
             }
 
@@ -124,15 +122,71 @@ class ArticleController extends Controller
         return view('articles.keywords');
     }
 
-    public function createArticleKeywords(){
+    public function createArticleKeywords(Request $request){
         try {
-            return response()->json(['success' => 'success'], 200);
+
+            $keywords = $request->keywords;
+            $content = '';
+            foreach($keywords as $key => $keyword){
+                $content .= $keyword;
+                if(isset($keywords[$key+1])) $content .= ', ';
+            }
+
+            $data = array(
+                "task" => "template",
+                "template_id" => 32,
+                "inputs" => json_encode(array(
+                    "description" => "AI Writer",
+                    "keyword" => "AI Writer",
+                    "tone" => "professional"
+                ))
+            );
+
+            $response = $this->compose($data);
+            $response = json_decode($response, true);
+            $generated = $response['generated_text'];
+            $titles = explode("\n", $generated);
+            $heading = '';
+            foreach ($titles as $key => $title) {
+                $title_text = str_replace('\"', '', $title);
+                $title_text = str_replace('"', '', $title_text);
+                if($title_text != ' ' && $title_text != null){
+                    $heading = $title_text;
+                    break;
+                }
+            }
+
+
+            return response()->json([
+                'success' => 'success',
+                'generated' => $heading
+            ], 200);
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['error' => "Can't Generate Content, Please Contact Admin!"], 500);
         }
     }
 
     public function articleTitle(){
 
+    }
+
+    function compose($data){
+        $endpoint = "https://aiwriter.brainpod.ai/api/v1";
+        $api_key = "awDEU8qzHlawLFK2AuV0hafz1dnm1dilKWXhXN6q"; // Replace with your own API key
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $endpoint);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            "Authorization: Bearer " . $api_key,
+            "Content-Type: application/json"
+        ));
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        return $response;
     }
 }

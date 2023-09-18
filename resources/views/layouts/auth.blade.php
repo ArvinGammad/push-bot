@@ -19,7 +19,7 @@
 		<link rel="stylesheet" type="text/css" href="{{asset('css/custom.css')}}?v={{strtotime(date('Y-m-d H:i:s'))}}" />
 		<!-- Scripts -->
 
-		<style type="text/css">
+		<!-- <style type="text/css">
 			.scroll-sidebar::-webkit-scrollbar-track
 			{
 
@@ -35,7 +35,7 @@
 			{
 				background-color: #dfdfdf;
 			}
-		</style>
+		</style> -->
 
 		@stack('css')
 	</head>
@@ -59,6 +59,7 @@
 		<script src="{{asset('sweetalert/sweetalert2.min.js')}}?v={{strtotime(date('Y-m-d h:i:s'))}}"></script>
 		
 		<script src="{{asset('ui/assets/js/sidebarmenu.js')}}"></script>
+		<script src="{{asset('ui/assets/libs/simplebar/dist/simplebar.js')}}"></script>
 		@stack('js')
 	</body>
 </html>

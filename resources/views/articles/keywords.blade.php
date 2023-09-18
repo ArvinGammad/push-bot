@@ -22,22 +22,10 @@
 			<hr>
 			<div id="article-carousel" class="carousel slide" data-bs-ride="true" hidden>
 				<div class="carousel-indicators">
-					<button type="button" data-bs-target="#article-carousel" data-bs-slide-to="0" class="active" aria-label="Slide 1" aria-current="true"></button>
+					
 				</div>
 				<div class="carousel-inner" style="background: #b3b3b3;">
-					<div class="carousel-item active mt-3 mb-3">
-						<div class="row">
-							<div class="col-9 ms-auto me-auto">
-								<div class="card">
-									<div class="card-header">
-									</div>
-									<div class="card-body" style="min-height: 500px;">
-									</div>
-								</div>
-							</div>
-						</div>
-						
-					</div>
+					
 				</div>
 				<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
 					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
