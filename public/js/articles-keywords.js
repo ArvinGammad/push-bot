@@ -32,9 +32,10 @@ $(document).ready(function(){
 							html +='<div class="col-9 ms-auto me-auto">';
 								html +='<div class="card">';
 									html +='<div class="card-header">';
+									html += '<a href="/article/editor/5" class="btn btn-primary btn-sm">Edit Article</a>'
 									html +='</div>';
+									html +='<div class="card-body" style="min-height: 500px; text-align: justify; padding: 15px;">';
 									html += response.generated;
-									html +='<div class="card-body" style="min-height: 500px;">';
 									html +='</div>';
 								html +='</div>';
 							html +='</div>';

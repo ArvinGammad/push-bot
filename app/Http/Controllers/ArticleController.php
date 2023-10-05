@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Articles;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class ArticleController extends Controller
 {
@@ -123,6 +124,7 @@ class ArticleController extends Controller
     }
 
     public function createArticleKeywords(Request $request){
+        set_time_limit(0);
         try {
 
             $keywords = $request->keywords;
@@ -136,8 +138,8 @@ class ArticleController extends Controller
                 "task" => "template",
                 "template_id" => 32,
                 "inputs" => json_encode(array(
-                    "description" => "AI Writer",
-                    "keyword" => "AI Writer",
+                    "description" => $content,
+                    "keyword" => $content,
                     "tone" => "professional"
                 ))
             );
@@ -150,16 +152,82 @@ class ArticleController extends Controller
             foreach ($titles as $key => $title) {
                 $title_text = str_replace('\"', '', $title);
                 $title_text = str_replace('"', '', $title_text);
+                $title_text = str_replace('1. ', '', $title_text);
                 if($title_text != ' ' && $title_text != null){
                     $heading = $title_text;
                     break;
                 }
             }
 
+            $data = array(
+                "task" => "template",
+                "template_id" => 9,
+                "inputs" => json_encode(array(
+                    "title" => $heading,
+                    "audience" => "",
+                    "tone" => "professional"
+                ))
+            );
+
+            $response = $this->compose($data);
+            $response = json_decode($response, true);
+
+            $intro = $response['generated_text'];
+
+
+            $data = array(
+                "task" => "template",
+                "template_id" => 10,
+                "inputs" => json_encode(array(
+                    "content" => $intro,
+                    "action" => "",
+                    "tone" => "professional"
+                ))
+            );
+
+            $response = $this->compose($data);
+            $response = json_decode($response, true);
+
+            $conclusion = $response['generated_text'];
+
+            $data = array(
+                "task" => "template",
+                "template_id" => 13,
+                "inputs" => json_encode(array(
+                    "text" => $intro,
+                    "tone" => "professional"
+                ))
+            );
+
+            $response = $this->compose($data);
+            $response = json_decode($response, true);
+
+            $expand1 = $response['generated_text'];
+
+            // $params = array(
+            //     'title'=>$heading,
+            //     'url'=>'http://2rtx3090-4rtx3090ti.tplinkdns.com:81/generate',
+            //     'outline'=>"",
+            //     'generate_image'=>false,
+            // );
+
+            // $response == http::timeout(0)->post('http://45.56.72.56:5001/brainpod/v3/blog',$params);
+
+            $content = "<h3>".$heading."</h3><br><br>".$intro."<br><br>".$expand1."<br><br>".$conclusion;
+
+            $article = Articles::create([
+                'user_id'=>auth()->user()->id,
+                'title'=> $heading,
+                'description'=> $intro,
+                'content'=> $content,
+                'status'=> 'completed',
+                'type'=> 'keywords'
+            ]);
 
             return response()->json([
                 'success' => 'success',
-                'generated' => $heading
+                'article_id' => $article->id,
+                'generated' => $content
             ], 200);
         } catch (Exception $e) {
             return response()->json(['error' => "Can't Generate Content, Please Contact Admin!"], 500);
