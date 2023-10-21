@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Articles;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,4 +43,39 @@ Route::middleware('auth')->group(function () {
     Route::post('/article/editor/compose', [App\Http\Controllers\ArticleController::class, 'editorCompose'])->name('article.editor.compose');
     
     // End Related Article Routes
+
+    // Templates
+     Route::get('/template/inputs', [App\Http\Controllers\TemplateController::class, 'templateInputs'])->name('template.inputs');
+
+    // Editor Modes
+    Route::get('/focus-mode/{id}', function ($id) {
+        $article = Articles::where('id', $id)->get()->first();
+        return view('layouts.editor-components.focus-mode',compact('article'));
+    });
+    Route::get('/seo-mode/{id}', function ($id) {
+        $article = Articles::where('id', $id)->get()->first();
+        return view('layouts.editor-components.seo-mode',compact('article'));
+    });
+    Route::get('/power-mode/{id}', function ($id) {
+        $article = Articles::where('id', $id)->get()->first();
+        return view('layouts.editor-components.power-mode',compact('article'));
+    });
+    Route::get('/image-search/{id}', function ($id) {
+        $article = Articles::where('id', $id)->get()->first();
+        return view('layouts.editor-components.image-search',compact('article'));
+    });
+    Route::get('/image-generator/{id}', function ($id) {
+        $article = Articles::where('id', $id)->get()->first();
+        return view('layouts.editor-components.image-generator',compact('article'));
+    });
+    Route::get('/text-to-speech/{id}', function ($id) {
+        $article = Articles::where('id', $id)->get()->first();
+        return view('layouts.editor-components.text-to-speech',compact('article'));
+    });
+    Route::get('/post-article/{id}', function ($id) {
+        $article = Articles::where('id', $id)->get()->first();
+        return view('layouts.editor-components.post-article',compact('article'));
+    });
+
+    // End of editor modes
 });
