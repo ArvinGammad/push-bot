@@ -66,7 +66,7 @@
 		<div class="col-lg-12 form-group text-center">
 			<div class="template-inputs">
 
-				<button type="submit" id="btn-generate-template" class="btn btn-primary"><i class="ti ti-device-floppy"></i> Generate Content</button>
+				<!-- <button type="submit" id="btn-generate-template" class="btn btn-primary"><i class="ti ti-device-floppy"></i> Generate Content</button> -->
 			</div>
 		</div>
 		<div class="col-lg-12 form-group text-end">

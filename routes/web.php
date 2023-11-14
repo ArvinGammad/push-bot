@@ -45,7 +45,8 @@ Route::middleware('auth')->group(function () {
     // End Related Article Routes
 
     // Templates
-     Route::get('/template/inputs', [App\Http\Controllers\TemplateController::class, 'templateInputs'])->name('template.inputs');
+    Route::get('/template/inputs', [App\Http\Controllers\TemplateController::class, 'templateInputs'])->name('template.inputs');
+
 
     // Editor Modes
     Route::get('/focus-mode/{id}', function ($id) {
@@ -78,4 +79,10 @@ Route::middleware('auth')->group(function () {
     });
 
     // End of editor modes
+
+    // Templates
+    Route::get('/admin/templates', [App\Http\Controllers\TemplateController::class, 'adminTemplates'])->name('admin.templates');
+    Route::get('/admin/templates/create', [App\Http\Controllers\TemplateController::class, 'templateInputs'])->name('admin.templates.create');
+    Route::get('/admin/templates/get', [App\Http\Controllers\TemplateController::class, 'adminTemplateGet'])->name('admin.templates.get');
+
 });
