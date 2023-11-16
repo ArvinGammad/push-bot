@@ -24,4 +24,8 @@ class TemplateController extends Controller
 
         return ['data'=>$templates];
     }
+
+    public function getAllTemplate(){
+        return view('templates.index');
+    }
 }
