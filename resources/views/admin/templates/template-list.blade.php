@@ -6,7 +6,7 @@
 		<div class="col-lg-12">
 			<div class="card" style="margin-top: 100px;">
 				<div class="card-header">
-					<button class="btn btn-sm btn-primary">+ Create Template</button>
+					<a class="btn btn-sm btn-primary" href="/admin/templates/create">+ Create Template</a>
 				</div>
 				<div class="card-body">
 					<table id="table-templates" class="table table-striped">

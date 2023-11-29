@@ -11,8 +11,8 @@ class TemplateController extends Controller
 
     }
 
-    public function templateInputs(Request $request){
-        
+    public function templateInputs(){
+        return view('admin.templates.template-create');
     }
 
     public function adminTemplates(){
