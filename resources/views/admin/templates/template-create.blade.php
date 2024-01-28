@@ -232,6 +232,9 @@
 			console.log(input_data);
 
 			$('[data-input-id="'+data_input_id+'"]').remove();
+		});
+
+		$(document).on('click','.btn-template-save', function(){
 		})
 	});
 </script>

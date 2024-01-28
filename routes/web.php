@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
     // Templates
     Route::get('/template/inputs', [App\Http\Controllers\TemplateController::class, 'templateInputs'])->name('template.inputs');
     Route::get('/templates', [App\Http\Controllers\TemplateController::class, 'getAllTemplate'])->name('template.list');
+    Route::get('/template/editor/{slug}', [App\Http\Controllers\TemplateController::class, 'templateEditor'])->name('template.editor');
 
 
     // Editor Modes

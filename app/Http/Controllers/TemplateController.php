@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TemplatesSetting;
+use App\Models\Template;
 
 class TemplateController extends Controller
 {
@@ -26,6 +27,15 @@ class TemplateController extends Controller
     }
 
     public function getAllTemplate(){
-        return view('templates.index');
+        $templates = Template::get();
+        return view('templates.index',compact('templates'));
+    }
+
+    public function templateEditor($slug){
+        $template = Template::where('slug',$slug)->get()->first();
+
+        $template_inputs = json_decode($template->input_fields);
+
+        return view('templates.editor', compact('template_inputs','template'));
     }
 }

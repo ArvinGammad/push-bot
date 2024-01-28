@@ -4,7 +4,19 @@
 <div class="container-fluid">
 	<div class="row mt-3">
 		<div class="col-lg-12">
-			
+			<div class="row">
+				@foreach($templates as $key => $template)
+				<div class="col-md-6 col-lg-4 col-sm-12 mb-4">
+					<div class="card h-100">
+						<div class="card-header bg-danger text-white"><span><b>{{$template->name}}</b></span></div>
+						<div class="card-body " style="padding: 5px 30px;">
+							<p>{{substr($template->description, 0, 100) . '...'}}</p>
+							<a class="btn btn-primary btn-sm mt-auto" href="/template/editor/{{$template->slug}}"><i class="ti ti-writing-sign"></i> Use Template</a>
+						</div>
+					</div>
+				</div>
+				@endforeach
+			</div>
 		</div>
 	</div>
 </div>
