@@ -48,6 +48,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/template/inputs', [App\Http\Controllers\TemplateController::class, 'templateInputs'])->name('template.inputs');
     Route::get('/templates', [App\Http\Controllers\TemplateController::class, 'getAllTemplate'])->name('template.list');
     Route::get('/template/editor/{slug}', [App\Http\Controllers\TemplateController::class, 'templateEditor'])->name('template.editor');
+    Route::get('/templates/editor/history/get', [App\Http\Controllers\TemplateController::class, 'templateEditorHistory'])->name('template.editor.history');
+     Route::post('/admin/templates/generate', [App\Http\Controllers\TemplateController::class, 'adminTemplateGenerate'])->name('admin.templates.generate');
 
 
     // Editor Modes
@@ -82,7 +84,7 @@ Route::middleware('auth')->group(function () {
 
     // End of editor modes
 
-    // Templates
+    // Admin Templates
     Route::get('/admin/templates', [App\Http\Controllers\TemplateController::class, 'adminTemplates'])->name('admin.templates');
     Route::get('/admin/templates/create', [App\Http\Controllers\TemplateController::class, 'templateInputs'])->name('admin.templates.create');
     Route::get('/admin/templates/get', [App\Http\Controllers\TemplateController::class, 'adminTemplateGet'])->name('admin.templates.get');
