@@ -42,8 +42,8 @@ class TemplateController extends Controller
     }
 
     public function templateEditorHistory(Request $request){
-        $templates = AiOutput::get();
-        return ['data'=>$templates];
+        $template_history = AiOutput::where('ai_id',$request->template_id)->where('type','template')->get();
+        return ['data'=>$template_history];
     }
 
     public function adminTemplateGenerate(Request $request){

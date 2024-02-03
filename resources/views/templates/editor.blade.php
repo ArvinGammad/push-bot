@@ -47,17 +47,25 @@
 				<div class="card-footer"></div>
 			</div>
 		</div>
-		<div class="col-lg-12 mt-5">
-			<table class="table" id="table-history">
-				<thead>
-					<tr>
-						<th>Output</th>
-						<th>Token Charge</th>
-						<th>Date Generaed</th>
-						<th></th>
-					</tr>
-				</thead>
-			</table>
+		<div class="col-lg-12 mt-3">
+			<div class="card">
+				<div class="card-header">
+					<span><b>Generated Content History</b></span>
+				</div>
+				<div class="card-body">
+					<table class="table table-striped" id="table-history">
+						<thead>
+							<tr>
+								<th>Output</th>
+								<th>Token Charge</th>
+								<th>Date Generaed</th>
+								<th></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+			
 		</div>
 	</div>
 </div>
@@ -100,12 +108,19 @@
 			width: 100%;
 		}
 	}
+	.dataTables_filter{
+		float: left;
+		text-align: left;
+		margin-left: 10px
+	}
+	
 </style>
 @endpush
 
 @push('js')
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
 
 <script type="text/javascript">
 
@@ -113,8 +128,6 @@
 	const speed = 10; // typing speed in milliseconds
 
 	$(function () {
-		$('[data-toggle="tooltip"]').tooltip();
-
 		$("#form-template-generate").on('submit',function(e){
 			e.preventDefault();
 			var form_data = $("#form-template-generate").serialize();
@@ -153,12 +166,37 @@
 
 		$(document).ready(function() {
 			table_template_history.DataTable({
-				"ajax": "/templates/editor/history/get",
+				"ajax": {
+					"url": "/templates/editor/history/get",
+					"data": { "template_id": 3 }
+				},
+				"pageLength": 5,
+				"lengthChange": false,
 				"columns": [
-					{ "data": "id" },
-					{ "data": "name" },
-					{ "data": "status" },
-					{ "data": "settings" }
+					{ 
+						"data": "output",
+						"render": function(data, type, row) {
+							if (data) {
+								if (data.length > 30) {
+									$('[data-toggle="tooltip"]').tooltip();
+									return "<span class='tooltip-span' data-toggle='tooltip' data-placement='top' title='"+data+"'>"+data.substr(0, 70) + '...'+"</span>";
+								} else {
+									return data;
+								}
+							} else {
+								return '';
+							}
+						}
+					},
+					{ "data": "charge" },
+					{ "data": "created_at" },
+					{ 
+						"data": null,
+						"orderable": false,
+						"render": function(data, type, row) {
+							return '';
+						}
+					}
 				]
 			});
 		});
@@ -176,7 +214,7 @@
 
 			index++;
 			setTimeout(() => {
-				typeWriter(text, index); // Call typeWriter recursively with updated index
+				typeWriter(text, index);
 			}, speed);
 		}
 	}
