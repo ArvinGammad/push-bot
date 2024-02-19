@@ -13,6 +13,7 @@
 		<link rel="dns-prefetch" href="//fonts.bunny.net">
 		<link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="{{asset('sweetalert/sweetalert2.min.css')}}?v={{strtotime(date('Y-m-d h:i:s'))}}">
+		<link rel="stylesheet" type="text/css" href="{{asset('fontawesome/css/all.min.css')}}?v={{strtotime(date('Y-m-d h:i:s'))}}">
 
 		<link rel="stylesheet" type="text/css" href="{{asset('ui/assets/css/styles.css')}}?v={{strtotime(date('Y-m-d H:i:s'))}}" />
 		<link rel="stylesheet" type="text/css" href="{{asset('css/custom.css')}}?v={{strtotime(date('Y-m-d H:i:s'))}}" />

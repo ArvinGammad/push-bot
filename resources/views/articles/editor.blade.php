@@ -62,4 +62,19 @@
 
 @push('js')
 <script src="{{asset('js/articles-editor.js')}}?v={{strtotime(date('Y-m-d h:i:s'))}}"></script>
+<script type="text/javascript">
+	$(document).ready(function(e){
+		$(window).scroll(function(){
+			if($(this).scrollTop() > 50){
+				$(".options-con").css("z-index","1000");
+				$(".options-con a.btn").css("background","white");
+				$(".options-con a.btn").css("box-shadow","rgba(0, 0, 0, 0.24) 0px 3px 8px");
+			}else{
+				$(".options-con").css("z-index","1");
+				$(".options-con a.btn").css("background","none");
+				$(".options-con a.btn").css("box-shadow","none");
+			}
+		});
+	});
+</script>
 @endpush

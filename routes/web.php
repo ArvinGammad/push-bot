@@ -45,12 +45,15 @@ Route::middleware('auth')->group(function () {
     // End Related Article Routes
 
     // Templates
-    Route::get('/template/inputs', [App\Http\Controllers\TemplateController::class, 'templateInputs'])->name('template.inputs');
+    Route::get('/template/inputs', [App\Http\Controllers\TemplateController::class, 'getTemplateInputs'])->name('template.inputs');
     Route::get('/templates', [App\Http\Controllers\TemplateController::class, 'getAllTemplate'])->name('template.list');
     Route::get('/template/editor/{slug}', [App\Http\Controllers\TemplateController::class, 'templateEditor'])->name('template.editor');
     Route::get('/templates/editor/history/get', [App\Http\Controllers\TemplateController::class, 'templateEditorHistory'])->name('template.editor.history');
-     Route::post('/admin/templates/generate', [App\Http\Controllers\TemplateController::class, 'adminTemplateGenerate'])->name('admin.templates.generate');
+    Route::get('/get/templates/generated/{generated_id}', [App\Http\Controllers\TemplateController::class, 'templateGetGenerated'])->name('template.editor.get.generated');
+    Route::post('/admin/templates/generate', [App\Http\Controllers\TemplateController::class, 'adminTemplateGenerate'])->name('admin.templates.generate');
 
+    // SEO
+     Route::get('/seo/test', [App\Http\Controllers\SEOController::class, 'test']);
 
     // Editor Modes
     Route::get('/focus-mode/{id}', function ($id) {

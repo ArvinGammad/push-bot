@@ -1,4 +1,6 @@
 <form action="" type="POST" id="form-power-mode">
+	@csrf
+	<input type="hidden" name="slug" id="slug">
 	<div class="row mt-3">
 		<div class="col-lg-12 form-group mb-3">
 			<label for="article-title-field">Templates</label>

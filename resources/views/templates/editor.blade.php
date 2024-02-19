@@ -3,14 +3,26 @@
 @section('content')
 <div class="container-fluid pe-5 ps-5 w-100" style="max-width: 100%;">
 	<div class="row mt-3">
-		<div class="col-lg-5" style="height: 500px;">
+		<div class="col-lg-12">
+			<div class="row">
+				<div class="col-lg-10">
+					<h3>{{$template->name}}</h3>
+					<h6>{{$template->description}}</h6>
+				</div>
+				<div class="col-lg-2 " style="align-items: center; display: inline-flex;">
+					<a href="/templates" class="ms-auto btn btn-sm btn-warning"><i class="fa-solid fa-arrow-left-long"></i> Change Template</a>
+				</div>
+			</div>
+			<hr>
+		</div>
+		<div class="col-lg-5" id="div-template" style="height: 500px;">
 			<form method="POST" id="form-template-generate" style="height: 100%;">
 				@csrf
 				<div class="card" style="height: 100%;">
 					<div class="card-header bg-danger text-white"><span><b>Your Input</b></span></div>
 					<div class="card-body">
 						<div class="row">
-							<input type="hidden" name="slug" value="{{$template->slug}}">
+							<input type="hidden" name="slug" id="template_slug" value="{{$template->slug}}">
 							@foreach ($template_inputs as $key => $input)
 								<div class='col-lg-12 form-group mb-2'>
 									@if($input->type == 'text')
@@ -56,8 +68,9 @@
 					<table class="table table-striped" id="table-history">
 						<thead>
 							<tr>
+								<th>#</th>
 								<th>Output</th>
-								<th>Token Charge</th>
+								<th class="text-center">Token Charge</th>
 								<th>Date Generaed</th>
 								<th></th>
 							</tr>
@@ -113,6 +126,27 @@
 		text-align: left;
 		margin-left: 10px
 	}
+
+	.tooltip-inner {
+		max-width: 500px; /* Adjust the width as needed */
+		text-align: justify;
+	}
+	.paginate_button{
+		border: 1px solid #fa896b;
+		color: #fa896b;
+		padding: 5px 10px;
+		border-radius: 100%;
+		margin: 1px;
+	}
+	.paginate_button.current{
+		background: #fa896b;
+		color: white;
+	}
+
+	.paginate_button:hover{
+		background: #fa896b;
+		color: white;
+	}
 	
 </style>
 @endpush
@@ -125,9 +159,76 @@
 <script type="text/javascript">
 
 	let index = 0;
-	const speed = 10; // typing speed in milliseconds
+	const speed = 5; // typing speed in milliseconds
+
+	let table_template_history = $('#table-history');
+
+
+	table_template_history.DataTable({
+		"ajax": {
+			"url": "/templates/editor/history/get",
+			"data": { "slug": $("#template_slug").val() }
+		},
+		"language": {
+			"paginate": {
+				"previous": "<i class='fas fa-chevron-left'></i>",
+				"next": "<i class='fas fa-chevron-right'></i>"
+			}
+		},
+		"pageLength": 5,
+		"columnDefs": [
+			{ "className": "text-center", "targets": 2 },
+			{ "className": "text-center", "targets": 4 }
+		],
+		"lengthChange": false,
+		"columns": [
+			{
+				"targets": 0, // First column
+				"render": function (data, type, row, meta) {
+					return meta.row + 1; // Add 1 to row index for numbering
+				}
+			},
+			{ 
+				"data": "output",
+				"render": function(data, type, row) {
+					if (data) {
+						if (data.length > 30) {
+							$('[data-toggle="tooltip"]').tooltip({
+								html: true
+							});
+
+							var data_text = data.replaceAll("'","&#39;");
+							var data_text = data_text.replaceAll("\n","<br>");
+
+							return "<span class='tooltip-span' data-toggle='tooltip' data-html='true' data-placement='top' title='"+data_text+"'>"+data.substr(0, 70) + '...'+"</span>";;
+						} else {
+							return data;
+						}
+					} else {
+						return '';
+					}
+				}
+			},
+			{ "data": "charge" },
+			{ "data": "created_at" },
+			{ 
+				"data": null,
+				"orderable": false,
+				"render": function(data, type, row) {
+					$('[data-toggle="tooltip"]').tooltip({
+						html: true
+					});
+					return `<div class="btn-group">
+						<button class="btn btn-info btn-template-view" data-toggle='tooltip' data-html='true' data-placement='top' title='View generated output' data-id="`+data.id+`"><i class="fa-solid fa-eye"></i></button>
+					</div>`;
+				}
+			}
+		]
+	});
 
 	$(function () {
+
+		$('.dataTables_filter input').addClass('form-control');
 		$("#form-template-generate").on('submit',function(e){
 			e.preventDefault();
 			var form_data = $("#form-template-generate").serialize();
@@ -145,6 +246,9 @@
 					typeWriter(data.response,0);
 					$('#btn-generate').html('Generate Output');
 					$('#btn-generate').attr('disabled',false);
+
+					table_template_history.DataTable().ajax.reload();
+					
 				},
 				error: function(xhr, status, error){
 					Swal.fire({
@@ -155,49 +259,40 @@
 					$('#btn-generate').html('Generate Output');
 					$('#btn-generate').attr('disabled',false);
 				}
-			})
+			});
 		});
 
 		$("#btn-clear").on('click',function(){
 			$("#form-template-generate")[0].reset();
 		});
 
-		let table_template_history = $('#table-history');
+		$(document).on("click",".btn-template-view", function(e){
+			var data_id = $(this).attr("data-id");
 
-		$(document).ready(function() {
-			table_template_history.DataTable({
-				"ajax": {
-					"url": "/templates/editor/history/get",
-					"data": { "template_id": 3 }
+			$.ajax({
+				url: '/get/templates/generated/'+data_id,
+				method: 'GET',
+				success: function(data){
+					var output = data.output.replaceAll("\n","<br>");
+					var inputs = Object.values(data.input);
+					document.getElementById("generated-output").innerHTML = output;
+					var i = 0;
+					$("#form-template-generate .col-lg-12 input, #form-template-generate .col-lg-12 select, #form-template-generate .col-lg-12 textarea").each(function(){
+						$(this).val(inputs[i]);
+						i++;
+					});
+
+					$('html, body').animate({
+						scrollTop: $('body').offset().top
+					}, 100);
 				},
-				"pageLength": 5,
-				"lengthChange": false,
-				"columns": [
-					{ 
-						"data": "output",
-						"render": function(data, type, row) {
-							if (data) {
-								if (data.length > 30) {
-									$('[data-toggle="tooltip"]').tooltip();
-									return "<span class='tooltip-span' data-toggle='tooltip' data-placement='top' title='"+data+"'>"+data.substr(0, 70) + '...'+"</span>";
-								} else {
-									return data;
-								}
-							} else {
-								return '';
-							}
-						}
-					},
-					{ "data": "charge" },
-					{ "data": "created_at" },
-					{ 
-						"data": null,
-						"orderable": false,
-						"render": function(data, type, row) {
-							return '';
-						}
-					}
-				]
+				error: function(xhr, status, error){
+					Swal.fire({
+						icon: 'error',
+						title: 'Oops...',
+						text: error,
+					});
+				}
 			});
 		});
 	});
@@ -207,7 +302,7 @@
 	function typeWriter(text, index = 0) {
 		if (index < text.length) {
 			if (text.charAt(index) === '\n') {
-			document.getElementById("generated-output").innerHTML += '<br>';
+				document.getElementById("generated-output").innerHTML += '<br>';
 			}else{
 				document.getElementById("generated-output").innerHTML += text.charAt(index);
 			}
