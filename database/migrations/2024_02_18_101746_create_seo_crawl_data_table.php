@@ -16,14 +16,15 @@ return new class extends Migration
         Schema::create('seo_crawl_data', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('seo_id');
-            $table->longtext('content');
-            $table->longtext('nlp');
-            $table->longtext('terms');
-            $table->longtext('headings');
-            $table->longtext('titles');
-            $table->longtext('paragraphs');
-            $table->longtext('words');
-            $table->longtext('images');
+            $table->unsignedBigInteger('url');
+            $table->longtext('content')->nullable();
+            $table->longtext('nlp')->nullable();
+            $table->longtext('terms')->nullable();
+            $table->longtext('headings')->nullable();
+            $table->longtext('titles')->nullable();
+            $table->longtext('paragraphs')->nullable();
+            $table->longtext('words')->nullable();
+            $table->longtext('images')->nullable();
             $table->enum('status', ['0', '1','2'])->default('0');
             $table->timestamps();
 

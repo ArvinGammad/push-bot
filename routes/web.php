@@ -53,7 +53,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/templates/generate', [App\Http\Controllers\TemplateController::class, 'adminTemplateGenerate'])->name('admin.templates.generate');
 
     // SEO
-     Route::get('/seo/test', [App\Http\Controllers\SEOController::class, 'test']);
+    Route::post('/seo/generate-urls', [App\Http\Controllers\SEOController::class, 'getSEOUrl'])->name('seo.generate.urls');
+    Route::get('/seo/crawl-url', [App\Http\Controllers\SEOController::class, 'crawlData'])->name('seo.crawl.url');
 
     // Editor Modes
     Route::get('/focus-mode/{id}', function ($id) {

@@ -26,7 +26,7 @@
 </div>
 @endsection
 @push('css')
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.21.1/tagify.min.css" integrity="sha512-TfYPiHiDtSRYxQL0fM3J+hJuiNvZZloMzG+PHyDgYA5DldpuUOhsfi2WDkGPp8cAV0h2NgaLH1OxZdqw2BbNAA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 @vite(['resources/js/app.js'])
 
 <style type="text/css">
@@ -61,6 +61,8 @@
 @endpush
 
 @push('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.21.1/tagify.min.js" integrity="sha512-e1PLou9D3vRJUgA/hH/a+xOasrGwqiIvTmoufWjcb8SNA10X/gKxQW/JMNIJaTHi9JuzCqbO+I2+9EvIfcM7Kw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.21.1/jQuery.tagify.min.js" integrity="sha512-oFeYIKFB7IoBKasr/A2okjvrujhixSQTsYMZ1MfX2X09wvTh6kUrCSAInu+2pkHrojvDS9QqMHSaBbDhjosWZg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="{{asset('js/articles-editor.js')}}?v={{strtotime(date('Y-m-d h:i:s'))}}"></script>
 <script type="text/javascript">
 	$(document).ready(function(e){

@@ -10,6 +10,7 @@ class SeoCrawlData extends Model
 	use HasFactory;
 	protected $fillable = [
         'seo_id',
+        'url',
         'content',
         'nlp',
         'terms',

@@ -86,15 +86,15 @@ $(document).ready(function(){
 			method: 'POST',
 			data:form_data,
 			beforeSend: function(data){
-				$('#btn-template-generate').html('<span id="loading-spinner" class="spinner-border spinner-border-sm me-1"></span> Generating');
+				$('#btn-template-generate').html('<span id="loading-spinner" class="spinner-border spinner-border-sm me-1"></span> Generating URLs');
 				$('#btn-template-generate').attr('disabled',true);
 			},
 			success: function(data){
 				$('#generated-output').html('');
 				$(".current_p").removeClass("current_p");
 				typeWriter(data.response,0);
-				$('#btn-template-generate').html('Generate Output');
-				$('#btn-template-generate').attr('disabled',false);
+				$('#btn-template-generate').html('<span id="loading-spinner" class="spinner-border spinner-border-sm me-1"></span> Waiting for the application to run your request.');
+				$('#btn-template-generate').attr('disabled',true);
 				
 			},
 			error: function(xhr, status, error){
@@ -108,6 +108,38 @@ $(document).ready(function(){
 			}
 		});
 	});
+
+	$(document).on('click','#btn-seo-run',function(e){
+		var tags = seo_tagify.value.map(tag => tag.value);
+		var csrfToken = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			url: '/seo/generate-urls',
+			method: 'POST',
+			data: { keywords: JSON.stringify(tags) },
+			headers: {
+				'X-CSRF-TOKEN': csrfToken // Set the CSRF token in the request header
+			},
+			beforeSend: function(xhr, data){
+				$('#btn-seo-run').html('<span id="loading-spinner" class="spinner-border spinner-border-sm me-1"></span> Generating');
+				$('#btn-seo-run').attr('disabled',true);
+			},
+			success: function(data){
+				$('#generated-output').html('');
+				$('#btn-seo-run').html('Run Crawler');
+				$('#btn-seo-run').attr('disabled',false);
+				
+			},
+			error: function(xhr, status, error){
+				Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: error,
+				});
+				$('#btn-seo-run').html('Run Crawler');
+				$('#btn-seo-run').attr('disabled',false);
+			}
+		});
+	})
 
 });
 var opened_p = 0;
