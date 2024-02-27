@@ -112,7 +112,7 @@ export default {
   },
   methods: {
     onChange() {
-      console.log(this.content)
+      // console.log(this.content)
     },
     uploadCallback(url: string) {
       console.log('uploaded url', url)
@@ -125,4 +125,25 @@ export default {
 @import "medium-editor/dist/css/medium-editor.css";
 @import "vuejs-medium-editor/dist/themes/default.css";
 @import 'highlight.js/styles/github.css';
+</style>
+<style>
+.medium-editor-container h1 {
+  font-size: 2em !important;
+}
+
+.medium-editor-container h2 {
+  font-size: 1.5em !important;
+}
+
+.medium-editor-container h3 {
+  font-size: 1.17em !important;
+}
+
+.medium-editor-container h4 {
+  font-size: 1em !important;
+}
+
+.medium-editor-container p {
+  margin-bottom: unset !important;
+}
 </style>

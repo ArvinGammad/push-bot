@@ -55,6 +55,9 @@ Route::middleware('auth')->group(function () {
     // SEO
     Route::post('/seo/generate-urls', [App\Http\Controllers\SEOController::class, 'getSEOUrl'])->name('seo.generate.urls');
     Route::get('/seo/crawl-url', [App\Http\Controllers\SEOController::class, 'crawlData'])->name('seo.crawl.url');
+    Route::get('/seo/get-seo-data', [App\Http\Controllers\SEOController::class, 'getSEOData'])->name('seo.get.data');
+    Route::get('/seo/get-crawled-data', [App\Http\Controllers\SEOController::class, 'getSEOCrawledData'])->name('seo.get.crawled.data');
+    Route::get('/seo/check-crawled-data', [App\Http\Controllers\SEOController::class, 'checkSEOCrawledData'])->name('seo.check.crawled.data');
 
     // Editor Modes
     Route::get('/focus-mode/{id}', function ($id) {
