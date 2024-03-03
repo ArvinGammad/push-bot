@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('member.dashboard');
 
-    // Start Related Article Routes
+    // Articles
     Route::get('/article', [App\Http\Controllers\ArticleController::class, 'index'])->name('article.index');
     Route::delete('/article/delete', [App\Http\Controllers\ArticleController::class, 'deleteArticle'])->name('article.delete');
 
@@ -41,8 +41,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/article/editor/save', [App\Http\Controllers\ArticleController::class, 'editorSave'])->name('article.editor.save');
     Route::post('/article/editor/create', [App\Http\Controllers\ArticleController::class, 'editorCreate'])->name('article.editor.create');
     Route::post('/article/editor/compose', [App\Http\Controllers\ArticleController::class, 'editorCompose'])->name('article.editor.compose');
-    
-    // End Related Article Routes
 
     // Templates
     Route::get('/template/inputs', [App\Http\Controllers\TemplateController::class, 'getTemplateInputs'])->name('template.inputs');
@@ -58,6 +56,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/seo/get-seo-data', [App\Http\Controllers\SEOController::class, 'getSEOData'])->name('seo.get.data');
     Route::get('/seo/get-crawled-data', [App\Http\Controllers\SEOController::class, 'getSEOCrawledData'])->name('seo.get.crawled.data');
     Route::get('/seo/check-crawled-data', [App\Http\Controllers\SEOController::class, 'checkSEOCrawledData'])->name('seo.check.crawled.data');
+
+    // Image search pexels
+    Route::post('/pexels/search', [App\Http\Controllers\ArticleController::class, 'searchPexelsImages'])->name('article.pexels.search');
+
+
+    // Image Editor
+    Route::get('/image/editor', [App\Http\Controllers\ImageEditorController::class, 'imageEditor'])->name('image.editor');
+
+
+    // WordPress Integration
+    Route::get('/wp/list', [App\Http\Controllers\WordPressController::class, 'index'])->name('wp.index');
+    Route::get('/wp/connect', [App\Http\Controllers\WordPressController::class, 'connectPage'])->name('wp.connectPage');
+    Route::post('/wp/save', [App\Http\Controllers\WordPressController::class, 'wpSave'])->name('wp.wpSave');
 
     // Editor Modes
     Route::get('/focus-mode/{id}', function ($id) {

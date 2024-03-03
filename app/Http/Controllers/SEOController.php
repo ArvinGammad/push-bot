@@ -99,12 +99,12 @@ class SEOController extends Controller
 
 					foreach($terms_arr as $term_key => $term){
 						if($term >= 100){
-							array_push($terms, $term_key);
+							if(!in_array(strtolower($term_key), $terms)) array_push($terms, strtolower($term_key));
 						}
 					}
 					foreach($nlp_arr as $nlp_key => $nlp){
 						if($nlp >= 15){
-							array_push($nlp_data, $nlp_key);
+							if(!in_array(strtolower($nlp_key), $nlp_data)) array_push($nlp_data, strtolower($nlp_key));
 						}
 					}
 				}

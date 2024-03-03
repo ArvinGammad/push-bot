@@ -8,8 +8,8 @@
 				<a class="btn btn-success editor-menu" data-id="{{@$article->id}}" data-toggle="power-mode"><i class="ti ti-template"></i> <br>Power Mode</a>
 				<a class="btn btn-success editor-menu" data-id="{{@$article->id}}" data-toggle="seo-mode"><i class="ti ti-seo"></i> <br>SEO Mode</a>
 				<a class="btn btn-success editor-menu" data-id="{{@$article->id}}" data-toggle="image-search"><i class="ti ti-photo-search"></i> <br>Image Search</a>
-				<a class="btn btn-success editor-menu" data-id="{{@$article->id}}" data-toggle="image-generator"><i class="ti ti-photo-edit"></i> <br>Image Generator</a>
-				<a class="btn btn-success editor-menu" data-id="{{@$article->id}}" data-toggle="text-to-speech"><i class="ti ti-microphone"></i> <br>Text To Speech</a>
+				<!-- <a class="btn btn-success editor-menu" data-id="{{@$article->id}}" data-toggle="image-generator"><i class="ti ti-photo-edit"></i> <br>Image Generator</a> -->
+				<!-- <a class="btn btn-success editor-menu" data-id="{{@$article->id}}" data-toggle="text-to-speech"><i class="ti ti-microphone"></i> <br>Text To Speech</a> -->
 				<a class="btn btn-success editor-menu" data-id="{{@$article->id}}" data-toggle="post-article"><i class="ti ti-message-2-share"></i> <br>Post Article</a>
 		</div>
 	</div>

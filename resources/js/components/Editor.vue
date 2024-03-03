@@ -26,11 +26,6 @@ export default {
       content: $('#article-content').val(),
       defaultValue: $('#article-content').val(),
       options: {
-        uploadUrl: 'https://api.imgur.com/3/image',
-        uploadUrlHeader: { Authorization: 'Client-ID db856b43cc7f441' },
-        file_input_name: 'image',
-        file_size: 1024 * 1024 * 10,
-        imgur: true,
         placeholder: {
           text: 'Type your content here...',
         },
@@ -105,8 +100,17 @@ export default {
               contentDefault: '<b><i class="ti ti-photo-plus"></i></b>',
               contentFA: '<i class="ti ti-photo-plus"></i>',
             },
+            {
+              name: 'image',
+              action: 'image',
+              aria: 'insert image from url',
+              tagNames: ['img'],
+              contentDefault: '<b>image</b>',
+              contentFA: '<i class="fa fa-picture-o"></i>',
+            },
           ],
         },
+        imageDragging: true
       },
     }
   },

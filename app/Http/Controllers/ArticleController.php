@@ -7,9 +7,13 @@ use Illuminate\Http\Request;
 use App\Models\Articles;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
 
 class ArticleController extends Controller
 {
+    protected $pexelsApiKey;
+    protected $client;
+
     public function index(){
         $articles = Articles::select('*')->where('user_id',auth()->user()->id)->orderBy('created_at','DESC')->limit(6)->get();
         return view('articles.index',compact('articles'));
@@ -236,6 +240,37 @@ class ArticleController extends Controller
 
     public function articleTitle(){
 
+    }
+
+    public function searchPexelsImages(Request $request){
+        try {
+
+            $query = $request->search_input;
+
+            $this->pexelsApiKey = env('PEXELS_API_KEY');
+            $this->client = new Client([
+                'base_uri' => 'https://api.pexels.com/',
+                'headers' => [
+                    'Authorization' => $this->pexelsApiKey,
+                ],
+            ]);
+
+            $response = $this->client->request('GET', 'v1/search', [
+                'query' => [
+                    'query' => $query,
+                    'per_page' => 20,
+                ]
+            ]);
+
+            $photos_result = json_decode($response->getBody()->getContents(), true)['photos'] ?? [];
+
+            return response()->json([
+                'success' => 'success', 
+                'generated' => $photos_result
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     function compose($data){

@@ -16,14 +16,20 @@ $(document).ready(function(){
 		var article_title = $("#article-title-field").val();
 		var article_description = $("#article-description").val();
 		var article_content = $(".editor").html();
+		console.log(article_content);
 		var id = $("#article-id").val();
 
-		var form_data = "article_title="+article_title+"&article_description="+article_description+"&article_content="+article_content+"&id="+id;
+		// var form_data = "article_title="+article_title+"&article_description="+article_description+"&article_content="+article_content+"&id="+id;
 
 		$.ajax({
 			url: '/article/editor/save',
 			method: 'POST',
-			data: form_data,
+			data: {
+				article_title: article_title,
+				article_description: article_description,
+				article_content: article_content,
+				id: id
+			},
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 			},

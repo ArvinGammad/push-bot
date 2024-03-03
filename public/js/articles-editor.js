@@ -168,12 +168,15 @@ function get_target_data(data,id){
 	$("#editor-modes").html('');
 	$("#editor-modes").load('/'+data+'/'+id);
 
-	if(data != "focus-mode"){
+	if(data == "seo-mode"){
+		loadSEOData();
 		$("#main-wrapper[data-layout=vertical][data-header-position=fixed] .app-header").css('width','calc(100% - 360px)');
 		$(".left-sidebar").css('width','360px');
 		$(".body-wrapper").css('margin-left','360px');
-	}if(data == "seo-mode"){
-		loadSEOData();
+	}else if(data != "focus-mode"){
+		$("#main-wrapper[data-layout=vertical][data-header-position=fixed] .app-header").css('width','calc(100% - 360px)');
+		$(".left-sidebar").css('width','360px');
+		$(".body-wrapper").css('margin-left','360px');
 	}else{
 		$("#main-wrapper[data-layout=vertical][data-header-position=fixed] .app-header").css('width','calc(100% - 270px)');
 		$(".left-sidebar").css('width','270px');
@@ -309,7 +312,7 @@ function getSEOData(seo_id){
 
 			if(data.status == '0'){
 				html += "<span class='text-center text-danger h2'>Pending</span><br>";
-				html += "<span class='text-center text-danger'>We're still waiting on the crawl to begin for your SEO.</span>";
+				html += "<span class='text-center text-danger'>We're still waiting on your SEO crawl to start.</span>";
 
 				seoIntervalId = setInterval(function() {
 					checkSEOStatus(seo_id);
@@ -356,11 +359,13 @@ function getSEOData(seo_id){
 let seo_keywords_array;
 let seo_nlp_array;
 let seo_terms_array;
+let seo_titles_array;
 
 function configureSEOContent(response){
 	seo_keywords_array = JSON.parse(response.data.keywords);
 	seo_terms_array = response.seo_terms;
 	seo_nlp_array = response.seo_nlp;
+	seo_titles_array = response.seo_titles;
 	var html = "";
 		html += "<div class='row'>";
 			html += "<div class='col-lg-12 text-start seo-header-menu' data-name='content'>";
@@ -426,7 +431,7 @@ function configureSEOContent(response){
 			html += "<li class='ms-2 seo-header-menu' data-name='titles'><h6><i class='ti ti-plus me-2 text-success'></i>TITLES</h6></li>";
 			html += "<li class='ms-2 d-none' id='seo-data-titles'>";
 			response.seo_titles.forEach(function(element) {
-				html += "<span class='btn btn-danger btn-sm m-1' style='font-size: 10px;'>"+element+"</span></a>";
+				html += "<span class='btn btn-danger btn-sm m-1' data-name='title-"+element.replace(/\s+/g, '_')+"' style='font-size: 10px;'>"+element+"</span></a>";
 			});
 			html += "</li>";
 			html += "</ul>";
@@ -437,7 +442,7 @@ function configureSEOContent(response){
 			html += "<li class='ms-2 seo-header-menu' data-name='nlp'><h6><i class='ti ti-plus me-2 text-success'></i>NLP</h6></li>";
 			html += "<li class='ms-2 d-none' id='seo-data-nlp'>";
 			response.seo_nlp.forEach(function(element) {
-				html += "<span class='btn btn-danger btn-sm m-1' style='font-size: 10px;'>"+element+"</span></a>";
+				html += "<span class='btn btn-danger btn-sm m-1' style='font-size: 10px;' data-name='nlp-"+element.replace(/\s+/g, '_')+"'>"+element+"</span></a>";
 			});
 			html += "</li>";
 			html += "</ul>";
@@ -448,7 +453,7 @@ function configureSEOContent(response){
 			html += "<li class='ms-2 seo-header-menu' data-name='terms'><h6><i class='ti ti-plus me-2 text-success'></i>TERMS</h6></li>";
 			html += "<li class='ms-2 d-none' id='seo-data-terms'>";
 			response.seo_terms.forEach(function(element) {
-				html += "<span class='btn btn-danger btn-sm m-1' style='font-size: 10px;'>"+element+"</span></a>";
+				html += "<span class='btn btn-danger btn-sm m-1' style='font-size: 10px;' data-name='term-"+element.replace(/\s+/g, '_')+"'>"+element+"</span></a>";
 			});
 			html += "</li>";
 			html += "</ul>";
@@ -545,7 +550,7 @@ function calculateScore(){
     // Calculate format_score for each criterion
     let format_score = 0;
     let nlp_score = calculateNLPSEOScore(seo_nlp_array, editor_text);
-    let keywords_score = 0;
+    let keywords_score = calculateKeywordsAndTitle(seo_titles_array,seo_terms_array, editor_text);
     let total_score = 0;
 
     let titles_score = calculateTitleSEOScore(headings_count,seo_keywords_array,editor_headings);
@@ -590,17 +595,90 @@ function calculateScore(){
 }
 
 function calculateNLPSEOScore(nlp_data, content){
+    let nlp_total_score = 0;
 
-	let nlp_total_score = 0;
-	nlp_data.forEach(nlp => {
-        if (nlp.match(content)) {
+    var lowerContent = content.toLowerCase();
+
+    nlp_data.forEach(nlp => {
+        let occurrences = lowerContent.split(nlp).length - 1;
+
+        if (occurrences >= 3) {
             nlp_total_score += 1;
+            if($("span[data-name='nlp-"+nlp.replace(/\s+/g, '_')+"']").hasClass('btn-danger') === true){
+	            $("span[data-name='nlp-"+nlp.replace(/\s+/g, '_')+"']").removeClass('btn-danger');
+	            $("span[data-name='nlp-"+nlp.replace(/\s+/g, '_')+"']").addClass('btn-success');
+	        }
+        }else{
+
+        	if($("span[data-name='nlp-"+nlp.replace(/\s+/g, '_')+"']").hasClass('btn-danger') === false){
+        		$("span[data-name='nlp-"+nlp.replace(/\s+/g, '_')+"']").removeClass('btn-success');
+            	$("span[data-name='nlp"+nlp.replace(/\s+/g, '_')+"']").addClass('btn-danger');
+        	}
+        	
         }
     });
 
-    return nlp_total_score;
+    if(nlp_total_score > 20) nlp_total_score = 20;
 
+    return nlp_total_score;
 }
+
+function calculateKeywordsAndTitle(titles,terms, content){
+    let title_score = 0;
+    let terms_score = 0;
+
+    var lowerContent = content.toLowerCase();
+
+    titles.forEach(title => {
+    	title_lowercase = title.toLowerCase();
+        let occurrences = lowerContent.split(title_lowercase).length - 1;
+
+        if (occurrences >= 1) {
+            title_score += 1;
+
+        	if($("span[data-name='title-"+title.replace(/\s+/g, '_')+"']").hasClass('btn-danger') === true){
+	            $("span[data-name='title-"+title.replace(/\s+/g, '_')+"']").removeClass('btn-danger');
+	            $("span[data-name='title-"+title.replace(/\s+/g, '_')+"']").addClass('btn-success');
+	        }
+        }else{
+
+        	if($("span[data-name='title-"+title.replace(/\s+/g, '_')+"']").hasClass('btn-danger') === false){
+        		$("span[data-name='title-"+title.replace(/\s+/g, '_')+"']").removeClass('btn-success');
+            	$("span[data-name='title-"+title.replace(/\s+/g, '_')+"']").addClass('btn-danger');
+        	}
+        	
+        }
+    });
+
+    if(title_score > 15) title_score = 15;
+
+    terms.forEach(term => {
+        let occurrences = lowerContent.split(term).length - 1;
+
+        if (occurrences >= 2) {
+            terms_score += 1;
+
+        	if($("span[data-name='term-"+term.replace(/\s+/g, '_')+"']").hasClass('btn-danger') === true){
+	            $("span[data-name='term-"+term.replace(/\s+/g, '_')+"']").removeClass('btn-danger');
+	            $("span[data-name='term-"+term.replace(/\s+/g, '_')+"']").addClass('btn-success');
+	        }
+        }else{
+
+        	if($("span[data-name='term-"+term.replace(/\s+/g, '_')+"']").hasClass('btn-danger') === false){
+        		$("span[data-name='term-"+term.replace(/\s+/g, '_')+"']").removeClass('btn-success');
+            	$("span[data-name='term-"+term.replace(/\s+/g, '_')+"']").addClass('btn-danger');
+        	}
+        	
+        }
+    });
+
+    if(terms_score > 15) terms_score = 15;
+
+    console.log(terms_score);
+
+    return terms_score+title_score;
+}
+
 
 function calculateTitleSEOScore(numHeadings, keywords, headings) {
 
@@ -709,3 +787,59 @@ function  initializeHighchart(format_score, nlp_score, keywords_score, titles_sc
 		]
 	});
 }
+
+
+$(document).on('click',"#btn-image-run",function(e){
+
+	var search_input = $("#image-search").val();
+	$.ajax({
+			url: '/pexels/search',
+			method: 'POST',
+			data: {search_input: search_input},
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			},
+			beforeSend: function(xhr) {
+				$('#btn-image-run').html('<span id="loading-spinner" class="spinner-border spinner-border-sm me-1"></span> Searching for images...');
+				$('#btn-image-run').attr('disabled',true);
+			},
+			success: function(response) {
+				$('#btn-image-run').html('Run Image Search');
+				$('#btn-image-run').attr('disabled',false);
+
+				var generated = response.generated;
+				var html = "<div class='row'>";
+				html += "<div class='col-lg-12 mb-2 text-center'><span><b>Double click image to insert.</b></span></div>";
+
+				generated.forEach(function(image_data) {
+					console
+					html+="<div class='col-lg-6 mb-2'>"
+					html+="<img src='"+image_data['src']['medium']+"' class='pexels-image' style='width: 100%; height: auto;' />"
+					html+="</div>"
+				});
+				html += "</div>";
+
+				$(".image-div-data").html(html);
+			},
+			error: function(xhr, status, error) {
+				Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: error,
+				});
+
+				$('#btn-image-run').html('Run Image Search');
+				$('#btn-image-run').attr('disabled',false);
+			}
+		});
+});
+
+$(document).ready(function() {
+	$(document).on('dblclick','.pexels-image',function(){
+		var img_url = $(this).attr('src');
+
+		var img_html = "<img src='"+img_url+"' />";
+
+		$("#w-editor .editor").append("<p>"+img_html+"</p>");
+	})
+});
