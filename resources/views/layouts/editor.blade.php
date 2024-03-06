@@ -13,7 +13,9 @@
 		<link rel="dns-prefetch" href="//fonts.bunny.net">
 		<link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
+		<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="{{asset('ui/assets/css/styles.css')}}?v={{strtotime(date('Y-m-d H:i:s'))}}" />
+		<link href="{{asset('/fontawesome/css/all.min.css')}}" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="{{asset('css/custom.css')}}?v={{strtotime(date('Y-m-d H:i:s'))}}" />
 		<link rel="stylesheet" type="text/css" href="{{asset('css/editor.css')}}?v={{strtotime(date('Y-m-d H:i:s'))}}" />
 		<!-- Scripts -->
@@ -47,10 +49,12 @@
 
 		<script src="{{asset('ui/assets/libs/jquery/dist/jquery.min.js')}}"></script>
 		<script src="{{asset('ui/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 		<script src="{{asset('ui/assets/js/sidebarmenu.js')}}"></script>
 		<script src="{{asset('ui/assets/js/app.min.js')}}"></script>
 		<script src="{{asset('ui/assets/libs/simplebar/dist/simplebar.js')}}"></script>
 		<script src="{{asset('js/editor.js')}}"></script>
+
 		@stack('js')
 	</body>
 </html>

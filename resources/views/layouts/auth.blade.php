@@ -61,5 +61,30 @@
 		<script src="{{asset('ui/assets/js/sidebarmenu.js')}}"></script>
 		<script src="{{asset('ui/assets/libs/simplebar/dist/simplebar.js')}}"></script>
 		@stack('js')
+		<script>
+			document.getElementById('btn-logout').addEventListener('click', function(event) {
+				event.preventDefault(); // Prevent the default action of the link
+
+				// Create a form element
+				var form = document.createElement('form');
+				form.setAttribute('method', 'POST');
+				form.setAttribute('action', '/logout');
+
+				// Create a CSRF token input field if your application requires CSRF protection
+				var csrfToken = document.createElement('input');
+				csrfToken.setAttribute('type', 'hidden');
+				csrfToken.setAttribute('name', '_token');
+				csrfToken.setAttribute('value', '{{ csrf_token() }}'); // Use Laravel's helper function to generate CSRF token
+
+				// Append the CSRF token input field to the form
+				form.appendChild(csrfToken);
+
+				// Append the form to the document body
+				document.body.appendChild(form);
+
+				// Submit the form
+				form.submit();
+			});
+		</script>
 	</body>
 </html>

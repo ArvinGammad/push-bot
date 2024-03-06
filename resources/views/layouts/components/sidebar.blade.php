@@ -1,9 +1,9 @@
 <aside class="left-sidebar">
 	<!-- Sidebar scroll-->
 	<div>
-		<div class="brand-logo d-flex align-items-center justify-content-between">
+		<div class="brand-logo d-flex align-items-center justify-content-between" style="min-height: 100px; padding: 0px 33px;">
 			<a href="./index.html" class="text-nowrap logo-img">
-				<img src="{{asset('ui/assets/images/logos/dark-logo.svg')}}" width="180" alt="" />
+				<img src="{{asset('image/pushbot.png')}}" width="200" alt="" />
 			</a>
 			<div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
 				<i class="ti ti-x fs-8"></i>
@@ -77,46 +77,68 @@
 				</li>
 				@php
 					$wp_array = [
-						route('wp.index'),
+						'wp.index',
+						'wp.connectPage',
+						'wp.editPage',
 					]
 				@endphp
 				<li class="sidebar-item">
-					<a class="sidebar-link @if(in_array(request()->fullUrl(), $wp_array)) active @endif" href="{{route('wp.index')}}" aria-expanded="false">
+					<a class="sidebar-link @if(in_array(Route::currentRouteName(), $wp_array)) active @endif" href="{{route('wp.index')}}" aria-expanded="false">
 						<span>
 							<i class="ti ti-brand-wordpress"></i>
 						</span>
 						<span class="hide-menu">WordPress</span>
 					</a>
 				</li>
+
+				@php
+					$shopify_array = [
+						'shopify.index',
+					]
+				@endphp
 				<li class="sidebar-item">
-					<a class="sidebar-link @if(in_array(request()->fullUrl(), $article_array)) active @endif" href="{{route('article.index')}}" aria-expanded="false">
+					<a class="sidebar-link @if(in_array(Route::currentRouteName(), $shopify_array)) active @endif" href="{{route('shopify.index')}}" aria-expanded="false">
 						<span>
 							<i class="ti ti-brand-shopee"></i>
 						</span>
 						<span class="hide-menu">Shopify</span>
 					</a>
 				</li>
+
+				@php
+					$wix_array = [
+						'wix.index',
+					]
+				@endphp
 				<li class="sidebar-item">
-					<a class="sidebar-link @if(in_array(request()->fullUrl(), $article_array)) active @endif" href="{{route('article.index')}}" aria-expanded="false">
+					<a class="sidebar-link @if(in_array(Route::currentRouteName(), $wix_array)) active @endif" href="{{route('wix.index')}}" aria-expanded="false">
 						<span>
 							<i class="ti ti-brand-wix"></i>
 						</span>
 						<span class="hide-menu">Wix</span>
 					</a>
 				</li>
+
 				<li class="nav-small-cap">
 					<i class="ti ti-dots nav-small-cap-icon fs-4"></i>
 					<span class="hide-menu">Facecbook</span>
 				</li>
+
+				@php
+					$facebook_array = [
+						'facebook.index',
+					]
+				@endphp
+				
 				<li class="sidebar-item">
-					<a class="sidebar-link @if(in_array(request()->fullUrl(), $article_array)) active @endif" href="{{route('article.index')}}" aria-expanded="false">
+					<a class="sidebar-link @if(in_array(Route::currentRouteName(), $facebook_array)) active @endif" href="{{route('facebook.index')}}" aria-expanded="false">
 						<span>
 							<i class="ti ti-brand-facebook"></i>
 						</span>
 						<span class="hide-menu">Account Manger</span>
 					</a>
 				</li>
-				<li class="sidebar-item">
+				<!-- <li class="sidebar-item">
 					<a class="sidebar-link @if(in_array(request()->fullUrl(), $article_array)) active @endif" href="{{route('article.index')}}" aria-expanded="false">
 						<span>
 							<i class="ti ti-settings-automation"></i>
@@ -131,7 +153,7 @@
 						</span>
 						<span class="hide-menu">Facebook Chat Bot</span>
 					</a>
-				</li>
+				</li> -->
 			</ul>
 			<div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">
 				<div class="d-flex">
@@ -140,7 +162,7 @@
 						<a href="https://adminmart.com/product/modernize-bootstrap-5-admin-template/" target="_blank" class="btn btn-primary fs-2 fw-semibold lh-sm">Buy Plan</a>
 					</div>
 					<div class="unlimited-access-img">
-						<img src="{{asset('ui/assets/images/backgrounds/rocket.png')}}" alt="" class="img-fluid">
+						<img src="{{asset('image/pushbot-plan.png')}}" width="105" alt="" class="img-fluid">
 					</div>
 				</div>
 			</div>

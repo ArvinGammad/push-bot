@@ -68,7 +68,24 @@ Route::middleware('auth')->group(function () {
     // WordPress Integration
     Route::get('/wp/list', [App\Http\Controllers\WordPressController::class, 'index'])->name('wp.index');
     Route::get('/wp/connect', [App\Http\Controllers\WordPressController::class, 'connectPage'])->name('wp.connectPage');
+    Route::get('/wp/edit/{id}', [App\Http\Controllers\WordPressController::class, 'editPage'])->name('wp.editPage');
+    Route::put('/wp/update', [App\Http\Controllers\WordPressController::class, 'wpUpdate'])->name('wp.wpUpdate');
+    Route::delete('/wp/delete', [App\Http\Controllers\WordPressController::class, 'wpDelete'])->name('wp.wpDelete');
     Route::post('/wp/save', [App\Http\Controllers\WordPressController::class, 'wpSave'])->name('wp.wpSave');
+
+    // WordPress Articles
+    Route::get('/wp/get-wp-detail', [App\Http\Controllers\WordPressController::class, 'getWPDetails'])->name('wp.getWPDetails');
+    Route::post('/wp/wp-post', [App\Http\Controllers\WordPressController::class, 'wpPost'])->name('wp.wpPost');
+
+    // Shopify
+    Route::get('/shopify/index', [App\Http\Controllers\DashboardController::class, 'maintenance'])->name('shopify.index');
+    // Wix
+    Route::get('/wix/index', [App\Http\Controllers\DashboardController::class, 'maintenance'])->name('wix.index');
+    // BigCommerce
+    Route::get('/bigcommerce/index', [App\Http\Controllers\DashboardController::class, 'maintenance'])->name('bigcommerce.index');
+    // Facebook
+    Route::get('/facebook/index', [App\Http\Controllers\DashboardController::class, 'maintenance'])->name('facebook.index');
+
 
     // Editor Modes
     Route::get('/focus-mode/{id}', function ($id) {

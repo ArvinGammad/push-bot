@@ -8,6 +8,7 @@
 		</div>
 		<div class="col-lg-8 m-auto">
 			<form method="POST" id="form-wordpress-connect">
+				<input type="hidden" name="wp_id" id="wp_id" value="{{$wordpress->id}}">
 				@csrf
 				<div class="card">
 					<div class="card-header bg-danger">
@@ -17,15 +18,15 @@
 						<div class="row">
 							<div class="col-lg-12 mb-3 form-group">
 								<label for="wp_url"><i class="fa-solid fa-link me-2"></i>  WordPress URL</label>
-								<input type="text" name="wp_url" id="wp_url" required placeholder="Enter your WordPress URL e.g. htts://example.com" class="form-control">
+								<input type="text" name="wp_url" id="wp_url" value="{{$wordpress->url}}" required placeholder="Enter your WordPress URL e.g. htts://example.com" class="form-control">
 							</div>
 							<div class="col-lg-6 mb-3 form-group">
 								<label for="wp_username"><i class="fa-solid fa-circle-user me-2"></i> WordPress Username</label>
-								<input type="text" name="wp_username" required id="wp_username" placeholder="Enter your username" class="form-control">
+								<input type="text" name="wp_username" value="{{$wordpress->username}}" required id="wp_username" placeholder="Enter your username" class="form-control">
 							</div>
 							<div class="col-lg-6 mb-3 form-group">
 								<label for="wp_password"><i class="fa-solid fa-key me-2"></i> WordPress App Password</label>
-								<input type="password" name="wp_password" required id="wp_password" placeholder="Enter your app password" class="form-control">
+								<input type="password" name="wp_password" value="{{$wordpress->password}}" required id="wp_password" placeholder="Enter your app password" class="form-control">
 							</div>
 						</div>
 					</div>
@@ -53,20 +54,14 @@
 
 
 	$(document).ready(function(){
-		// $(document).on("click","#btn-wordpress-save", function(e) {
-
-		// 	e.preventDefault();
-		// 	$("#form-wordpress-connect").submit();
-		// });
-
 		$("#form-wordpress-connect").on('submit',function(e){
 			e.preventDefault();
 
 			var form_data = $(this).serialize();
 
 			$.ajax({
-				url: '/wp/save',
-				method: 'POST',
+				url: '/wp/update',
+				method: 'PUT',
 				data: form_data,
 				beforeSend: function(data){
 					Swal.fire({

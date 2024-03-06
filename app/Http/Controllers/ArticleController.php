@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Articles;
+use App\Models\Wordpress;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
@@ -33,13 +34,14 @@ class ArticleController extends Controller
 
     public function editor($id){
         $article = Articles::select('*')->where('user_id',auth()->user()->id)->where('id',$id)->get()->first();
+        $wordpress = Wordpress::select('*')->where('user_id',auth()->user()->id)->get();
 
 
         if(!isset($article->id)){
             return back();
         }
 
-        return view('articles.editor',compact('article'));
+        return view('articles.editor',compact('article','wordpress'));
     }
 
     public function editorCreate(){
