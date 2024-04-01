@@ -27,6 +27,9 @@ Auth::routes();
 Route::middleware('auth')->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('member.dashboard');
+    Route::get('/profile', [App\Http\Controllers\DashboardController::class, 'profilePage'])->name('member.profilePage');
+    Route::post('/profile/save-profile', [App\Http\Controllers\DashboardController::class, 'saveProfile'])->name('member.saveProfile');
+    Route::put('/profile/change-password', [App\Http\Controllers\DashboardController::class, 'changePassword'])->name('member.changePassword');
 
     // Articles
     Route::get('/article', [App\Http\Controllers\ArticleController::class, 'index'])->name('article.index');
