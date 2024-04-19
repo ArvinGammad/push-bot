@@ -10,6 +10,6 @@ use GuzzleHttp\Client;
 class ImageEditorController extends Controller
 {
     public function imageEditor(){
-        
+        return view('image.editor');
     }
 }
