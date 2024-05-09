@@ -127,4 +127,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/templates/create', [App\Http\Controllers\TemplateController::class, 'templateInputs'])->name('admin.templates.create');
     Route::get('/admin/templates/get', [App\Http\Controllers\TemplateController::class, 'adminTemplateGet'])->name('admin.templates.get');
 
+    // Admin Packages
+    Route::get('/admin/packages', [App\Http\Controllers\PackageController::class, 'index'])->name('admin.packages.index');
+    Route::get('/admin/packages/create', [App\Http\Controllers\PackageController::class, 'createPage'])->name('admin.packages.createPage');
+
+    // Admin Users
+    Route::get('/admin/users', [App\Http\Controllers\UserController::class, 'index'])->name('admin.users.index');
+
 });

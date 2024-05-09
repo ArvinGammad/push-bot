@@ -138,6 +138,38 @@
 						<span class="hide-menu">Account Manger</span>
 					</a>
 				</li>
+
+				<li class="nav-small-cap">
+					<i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+					<span class="hide-menu">Admin</span>
+				</li>
+
+				@php
+					$package_array = [
+						'admin.packages.index',
+						'admin.packages.createPage',
+					]
+				@endphp
+
+				<li class="sidebar-item">
+					<a class="sidebar-link @if(in_array(Route::currentRouteName(), $package_array)) active @endif" href="{{route('admin.packages.index')}}" aria-expanded="false">
+						<span>
+							<i class="ti ti-package"></i>
+						</span>
+						<span class="hide-menu">Packages</span>
+					</a>
+				</li>
+
+				<li class="sidebar-item">
+					<a class="sidebar-link @if(Route::currentRouteName() == 'admin.users.index') active @endif" href="{{route('admin.users.index')}}" aria-expanded="false">
+						<span>
+							<i class="ti ti-users"></i>
+						</span>
+						<span class="hide-menu">Users</span>
+					</a>
+				</li>
+
+
 				<!-- <li class="sidebar-item">
 					<a class="sidebar-link @if(in_array(request()->fullUrl(), $article_array)) active @endif" href="{{route('article.index')}}" aria-expanded="false">
 						<span>
