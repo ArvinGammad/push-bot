@@ -86,7 +86,7 @@ class ArticleController extends Controller
             }
 
             $endpoint = 'https://aiwriter.brainpod.ai/api/v1';
-            $auth_bearer = 'awDEU8qzHlawLFK2AuV0hafz1dnm1dilKWXhXN6q';
+            $auth_bearer = env('BRAIN_API_KEY');
 
             $post_data = [
                 'task' => 'compose',
@@ -277,7 +277,7 @@ class ArticleController extends Controller
 
     function compose($data){
         $endpoint = "https://aiwriter.brainpod.ai/api/v1";
-        $api_key = "awDEU8qzHlawLFK2AuV0hafz1dnm1dilKWXhXN6q"; // Replace with your own API key
+        $api_key = env('BRAIN_API_KEY'); // Replace with your own API key
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $endpoint);

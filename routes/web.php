@@ -130,6 +130,11 @@ Route::middleware('auth')->group(function () {
     // Admin Packages
     Route::get('/admin/packages', [App\Http\Controllers\PackageController::class, 'index'])->name('admin.packages.index');
     Route::get('/admin/packages/create', [App\Http\Controllers\PackageController::class, 'createPage'])->name('admin.packages.createPage');
+    Route::get('/admin/packages/get-data', [App\Http\Controllers\PackageController::class, 'getPackageData'])->name('admin.packages.getPackageData');
+    Route::post('/admin/packages/create/submit', [App\Http\Controllers\PackageController::class, 'createAction']);
+    Route::post('/admin/packages/create/submit', [App\Http\Controllers\PackageController::class, 'createAction']);
+
+    Route::get('/subscriptions', [App\Http\Controllers\PackageController::class, 'subscriptionPage'])->name('subscriptionPage');
 
     // Admin Users
     Route::get('/admin/users', [App\Http\Controllers\UserController::class, 'index'])->name('admin.users.index');

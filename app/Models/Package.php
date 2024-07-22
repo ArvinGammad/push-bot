@@ -20,7 +20,8 @@ class Package extends Model
         'seo',
         'image',
         'status',
-        'validity'
+        'validity',
+        'price'
     ];
 
     protected $table = 'packages';
