@@ -134,6 +134,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/packages/create/submit', [App\Http\Controllers\PackageController::class, 'createAction']);
     Route::post('/admin/packages/create/submit', [App\Http\Controllers\PackageController::class, 'createAction']);
 
+    Route::get('/admin/packages/edit/{id}', [App\Http\Controllers\PackageController::class, 'editPackage'])->name('admin.packages.edit');
+
     Route::get('/subscriptions', [App\Http\Controllers\PackageController::class, 'subscriptionPage'])->name('subscriptionPage');
 
     // Admin Users

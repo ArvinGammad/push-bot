@@ -60,7 +60,7 @@
 						var html = '';
 
 						html += '<div class="btn-group text-center">';
-						html += '<button class="btn btn-sm btn-warning btn-edit" data-id="' + row.id + '">Edit</button>';
+						html += '<a class="btn btn-sm btn-warning btn-edit" href="/admin/packages/edit/'+row.id+'" data-id="' + row.id + '">Edit</a>';
 						html += '<button class="btn btn-sm btn-danger btn-delete" data-id="' + row.id + '">Delete</button>';
 						html += '</div>';
 						return html;

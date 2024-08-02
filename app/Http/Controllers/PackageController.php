@@ -26,9 +26,16 @@ class PackageController extends Controller
         return view('subscription-page',compact('packages'));
     }
 
+    public function editPackage($id){
+        $package = Package::find($id);
+        return view('admin.packages.edit',compact('package'));
+    }
+
     public function createAction(Request $request){
         try {
             $package = New Package();
+
+            if(isset($request->package_id)) $package = Package::find($request->package_id);
 
             $integration_array = array();
 
@@ -50,9 +57,14 @@ class PackageController extends Controller
 
             $package->save();
 
-            $this->paypalApiPlanCreate($package);
+            $response = $this->paypalApiPlanCreate($package);
+
+            return $response;
         } catch (Exception $e) {
-            
+            return response()->json([
+                'status' => "failed",
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
 
@@ -61,8 +73,81 @@ class PackageController extends Controller
         return ['data'=>$package];
     }
 
+    public function payWithPaypal(Request $request)
+    {
+
+        $payments = WhitelabelPayments::where('user_id',app('wl_global_admin_id'))->get()->first();
+        $paypal = WhitelabelBundles::where('package_id',$request->id)->where('user_id',app('wl_global_admin_id'))->get()->first();
+
+        if(!isset($payments->paypal_client_id) || !isset($payments->paypal_secret)){
+            return response()->json([
+                'status' => "failed",
+                'message' => 'Please contact your admin!'
+            ], 500);
+        }
+
+        $clientId = $payments->paypal_client_id;
+        $clientSecret = $payments->paypal_secret;
+
+        config(['paypal.live.client_id' => $clientId]);
+        config(['paypal.live.client_secret' => $clientSecret]);
+
+        $this->provider = new PayPalClient();
+
+        $this->provider->getAccessToken();
+
+        // Create the agreement
+        try {
+
+            $startDate = gmdate("Y-m-d\TH:i:s\Z", strtotime("+2 minutes"));
+
+            $subscription_data = [
+                "plan_id"=> $paypal->paypal_plan_id,
+                "start_time"=> $startDate,
+                "quantity"=> "1",
+                "subscriber"=> [
+                    "name"=> [
+                        "given_name"=> Auth::user()->name,
+                    ],
+                    "email_address"=> Auth::user()->email,
+                ],
+                "application_context"=> [
+                    "brand_name"=> app('wl_global_company_name'),
+                    "locale"=> "en-US",
+                    "shipping_preference"=> "SET_PROVIDED_ADDRESS",
+                    "user_action"=> "SUBSCRIBE_NOW",
+                    "payment_method"=> [
+                        "payer_selected"=> "PAYPAL",
+                        "payee_preferred"=> "IMMEDIATE_PAYMENT_REQUIRED"
+                    ],
+                    "return_url"=>  route('wl.payments.paypal.plan.success', ['id' => $paypal->id]),
+                    "cancel_url"=>  route('wl.payments.paypal.plan.cancel', ['id' => $paypal->id])
+                ]
+            ];
+
+            $subscription = $this->provider->createSubscription($subscription_data);
+
+            $customer = WhitelabelCustomers::where('customer_id',Auth::user()->id)->get()->first();
+            $customer->paypal_subscription_id = $subscription['id'];
+            $customer->save();
+
+
+            return response()->json([
+                'status' => "success",
+                'message' => "Redirect user to PayPal for approval",
+                'approval_url' => $subscription['links'][0]['href']
+            ], 200);
+
+        } catch (PayPal\Exception\PayPalConnectionException $ex) {
+        // Exception handling
+            return response()->json([
+                'status' => "failed",
+                'message' => $ex->getData()
+            ], 500);
+        }
+    }
+
     function paypalApiPlanCreate($package){
-        // $payments = WhitelabelPayments::where('user_id',Auth::user()->id)->get()->first();
 
         $client_id = env('PAYPAL_CLIENT_ID');
         $client_secret = env('PAYPAL_CLIENT_SECRET');
@@ -81,16 +166,6 @@ class PackageController extends Controller
             $this->provider = new PayPalClient();
 
             $this->provider->getAccessToken();
-
-
-            $data = WhitelabelBundles::where('user_id', Auth::user()->id)->get();
-
-            if(!isset($data[0]->id)){
-                return response()->json([
-                    'status' => "failed",
-                    'message' => 'You need to create a bundle first before syncing product to paypal.'
-                ], 500);
-            }
 
             $createdPlan = null;
 

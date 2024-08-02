@@ -11,6 +11,7 @@
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.2",
+        "srmklive/paypal": "^3.0",
         "symfony/dom-crawler": "^6.4",
         "yooper/php-text-analysis": "^1.9"
     },
